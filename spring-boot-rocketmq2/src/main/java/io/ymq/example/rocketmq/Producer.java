@@ -67,7 +67,7 @@ public class Producer {
                     }
                 }, 0);//
 
-                System.out.println(sendResult);
+                System.err.println(sendResult);
             }
             for (int i = 1; i <= 5; i++) {
 
@@ -81,7 +81,7 @@ public class Producer {
                     }
                 }, 1);//
 
-                System.out.println(sendResult);
+                System.err.println(sendResult);
             }
             for (int i = 1; i <= 5; i++) {
 
@@ -95,7 +95,7 @@ public class Producer {
                     }
                 }, 2);//
 
-                System.out.println(sendResult);
+                System.err.println(sendResult);
             }
 
             producer.shutdown();

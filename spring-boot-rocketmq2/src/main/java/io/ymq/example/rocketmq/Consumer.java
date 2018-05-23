@@ -1,9 +1,7 @@
 package io.ymq.example.rocketmq;
 
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.consumer.listener.*;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,10 +46,11 @@ public class Consumer {
             //设置Consumer第一次启动是从队列头部开始消费还是队列尾部开始消费
             //如果非第一次启动，那么按照上次消费的位置继续消费
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-            consumer.registerMessageListener(new MessageListenerConcurrently() {
+            consumer.registerMessageListener(new MessageListenerOrderly() {
 
                 @Override
-                public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext context) {
+                public ConsumeOrderlyStatus consumeMessage (final List<MessageExt> list,
+                final ConsumeOrderlyContext context) {
                     try {
                         for (MessageExt messageExt : list) {
 
@@ -64,9 +63,9 @@ public class Consumer {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        return ConsumeConcurrentlyStatus.RECONSUME_LATER; //稍后再试
+                        return ConsumeOrderlyStatus.ROLLBACK; //稍后再试
                     }
-                    return ConsumeConcurrentlyStatus.CONSUME_SUCCESS; //消费成功
+                    return ConsumeOrderlyStatus.SUCCESS; //消费成功
                 }
 
 
