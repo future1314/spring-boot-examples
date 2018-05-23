@@ -19,7 +19,7 @@ import java.util.List;
  * @create 2018-02-01 18:11
  **/
 @Component
-public class Consumer {
+public class Consumer2 {
 
     /**
      * 消费者的组名
@@ -44,7 +44,7 @@ public class Consumer {
         try {
             //订阅PushTopic下Tag为push的消息
             consumer.subscribe("TopicOrderTest", "*");
-            consumer.setInstanceName("cousume1");
+            consumer.setInstanceName("cousume2");///
             //设置Consumer第一次启动是从队列头部开始消费还是队列尾部开始消费
             //如果非第一次启动，那么按照上次消费的位置继续消费
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
@@ -55,11 +55,11 @@ public class Consumer {
                     try {
                         for (MessageExt messageExt : list) {
 
-                            //System.out.println("1messageExt: " + messageExt);//输出消息内容
+                            //System.out.println("2messageExt: " + messageExt);//输出消息内容
 
                             String messageBody = new String(messageExt.getBody(), "utf-8");
 
-                            System.out.println("1消费响应：Msg: " + messageExt.getMsgId() + ",msgBody: " + messageBody);//输出消息内容
+                            System.out.println("2消费响应：Msg: " + messageExt.getMsgId() + ",msgBody: " + messageBody);//输出消息内容
 
                         }
                     } catch (Exception e) {
