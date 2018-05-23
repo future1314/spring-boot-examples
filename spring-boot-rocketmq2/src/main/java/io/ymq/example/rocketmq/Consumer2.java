@@ -41,7 +41,8 @@ public class Consumer2 {
         consumer.setNamesrvAddr(namesrvAddr);
         try {
             //订阅PushTopic下Tag为push的消息
-            consumer.subscribe("TopicOrderTest", "*");
+//          consumer.subscribe("TopicOrderTest", "*");
+            consumer.subscribe("OrderTopic", "*");
             consumer.setInstanceName("cousume2");///
             //设置Consumer第一次启动是从队列头部开始消费还是队列尾部开始消费
             //如果非第一次启动，那么按照上次消费的位置继续消费

@@ -54,7 +54,7 @@ public class Producer {
 
             // String[] tags = new String[] { "TagA", "TagB", "TagC", "TagD",
             // "TagE" };
-
+/*
             for (int i = 1; i <= 5; i++) {
 
                 Message msg = new Message("TopicOrderTest", "order_1", "KEY" + i, ("order_1 " + i).getBytes());
@@ -97,6 +97,27 @@ public class Producer {
 
                 System.err.println(sendResult);
             }
+*/
+
+            String[] tags=new String[]{"createTag","payTag","sendTag"};
+            for (int orderId = 1; orderId <= 10; orderId++) {
+
+                for (int type = 0; type <3; type++) {
+
+                    Message msg = new Message("OrderTopic", tags[type % tags.length], orderId+":"+ type , (orderId+":"+ type).getBytes());
+
+                    SendResult sendResult = producer.send(msg, new MessageQueueSelector() {
+                        public MessageQueue select(List<MessageQueue> mqs, Message msg, Object arg) {
+                            Integer id = (Integer) arg;
+                            int index = id % mqs.size();
+                            return mqs.get(index);
+                        }
+                    }, orderId);//
+
+                    System.err.println(sendResult);
+                }
+            }
+
 
             producer.shutdown();
         } catch (MQClientException e) {
